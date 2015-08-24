@@ -1,0 +1,1 @@
+# Fix Hangul text file
