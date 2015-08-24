@@ -8,6 +8,7 @@ def redo_line_break(s):
     return s
 
 def should_be_joined_to_next(s):
+    ''' Returns true if a line should be joined to the next.'''
     ss = s.strip()
     #print ss,'ends with',ss[-3:]
 
@@ -42,34 +43,25 @@ def join_broken_paragraphs(b):
     return bo
 
 
-
-def end_paragraph_by(ps,tok):
-    ''' Break paragraphs by ending rule.'''
+def break_paragraph_at(ps, tok, num=0):
+    ''' Break paragraphs using a token.'''
     po=[]
+    tok1 = tok[:num]
+    tok2 = tok[num:]
     for ii,p in enumerate(ps):
         ss=p.split(tok)
-        for jj in range(len(ss)-1):
-            po.append(ss[jj]+tok)
-        if len(ss[-1].strip())>0:
-            po.append(ss[-1])
-    return po
-
-def start_paragraph_by(ps,tok):
-    ''' Break paragraphs by starting rule.'''
-    po=[]
-    for ii,p in enumerate(ps):
-        ss=p.split(tok)
-        if len(ss[0].strip())>0:
-            po.append(ss[0])
+        po.append(ss[0])
         for jj in range(1,len(ss)):
-            po.append(tok+ss[jj])
+            po[-1]=po[-1]+tok1
+            po.append(tok2+ss[jj])
     return po
-
 
 def break_joined_paragraphs(b):
-    bo = end_paragraph_by(b,'" ')
-    bo = start_paragraph_by(bo,' "')
-    return bo
+    b = break_paragraph_at(b,'?"',2)
+    b = break_paragraph_at(b,'!"',2)
+    b = break_paragraph_at(b,'."',2)
+    b = break_paragraph_at(b,'. "',1)
+    return b
 
 
 
