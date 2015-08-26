@@ -38,10 +38,13 @@ def should_begin(s):
     True
     >>> should_begin(u'3. 여행의 시작')
     True
+    >>> should_begin(u'- 여행의 시작')
+    True
     >>> should_begin(u'여행의 시작')
     False
     '''
     if s.startswith('   '): return True
+    if s.startswith('- '): return True
     if re.match('^\d+\.',s.strip()): return True
     return False
 
